@@ -1,0 +1,1 @@
+alter table usuarios add column senha varchar(500);
