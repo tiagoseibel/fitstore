@@ -1,8 +1,46 @@
-# fitstore
+# FitStore
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+A e-commerce API devoloped in Quarkus, for educational purposes.
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+This project uses Quarkus, the Supersonic Subatomic Java Framework. If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+
+You can use IntelliJ, or any other tool to explore this project.
+
+## Architecture
+A simple layered applicatcion, with:
+### model
+Entity classes with jakarta JPA annotations and PanacheEntity (extends) for Active Record pattern.
+### service
+Business Rules and Transactional
+### controller
+REST controllers / endpoints
+
+## Technical details
+- Data Persistence with Panache
+- Active Record pattern
+- JPA specification
+- Database migrations with Flyway
+- PostgreSQL as Database
+- JWT Security (basic) using Smallrye
+- HTTP-only cookies to prevent auth token local storage
+- Server-side pagination
+
+In develop:
+- Event-driven architecture with Kafka
+- In memory cache with Caffeine and Redis
+- Object Storage (minio/AWS S3) product pictures
+- Deploy using docker
+
+## How to create a key-pair for Smallrye
+You can use the Git Bash utility and run this commands
+
+```shell script
+
+openssl genrsa -out rsaPrivateKey.pem 2048
+openssl rsa -pubout -in rsaPrivateKey.pem -out publicKey.pem
+ 
+```
+[Security JWT Guide](https://pt.quarkus.io/guides/security-jwt)
 
 ## Running the application in dev mode
 
