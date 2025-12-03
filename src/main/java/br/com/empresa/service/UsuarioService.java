@@ -6,6 +6,7 @@ import io.quarkus.elytron.security.common.BcryptUtil;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @ApplicationScoped
@@ -14,6 +15,7 @@ public class UsuarioService {
     @Transactional
     public Usuario create(Usuario usuario) {
         usuario.senha = BcryptUtil.bcryptHash(usuario.senha);
+        usuario.dataCadastro = LocalDate.now();
         Usuario.persist(usuario);
         return usuario;
     }

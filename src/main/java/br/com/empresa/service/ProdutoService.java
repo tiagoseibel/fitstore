@@ -5,14 +5,22 @@ import br.com.empresa.payload.Page;
 import br.com.empresa.payload.PageRequest;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.PathParam;
+import software.amazon.awssdk.core.sync.RequestBody;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.GetObjectRequest;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 import java.io.InputStream;
 import java.util.List;
 
 @ApplicationScoped
 public class ProdutoService {
+
+    @Inject
+    S3Client s3Client;
 
     public List<Produto> listarTodos() {
         return Produto.listAll();
@@ -39,7 +47,14 @@ public class ProdutoService {
     }
 
     public InputStream buscarFotoProduto(@PathParam("id") Long id) {
-        return getClass().getResourceAsStream("/META-INF/resources/images/tenis-fila.jpeg");
+        Produto produto = Produto.findById(id);
+
+        GetObjectRequest gutObjectRequest = GetObjectRequest.builder()
+                .bucket("ecommerce")
+                .key(produto.imagem)
+                .build();
+
+        return s3Client.getObject(gutObjectRequest);
     }
 
     @Transactional
